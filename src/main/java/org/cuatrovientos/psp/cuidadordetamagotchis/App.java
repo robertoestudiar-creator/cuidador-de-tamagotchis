@@ -25,4 +25,13 @@ public class App {
 		return tamagotchis;
 	}
 
+	private static void lanzarTamagotchis(Tamagotchi[] tamagotchis) {
+		for (Tamagotchi tamagotchi : tamagotchis) {
+			tamagotchi.start();
+			Thread controlador = new Thread(new ControladorTiempo(tamagotchi));
+			controlador.setDaemon(true);
+			controlador.start();
+		}
+	}
+
 }
