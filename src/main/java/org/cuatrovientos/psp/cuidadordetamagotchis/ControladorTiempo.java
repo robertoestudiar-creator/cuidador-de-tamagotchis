@@ -13,6 +13,17 @@ public class ControladorTiempo implements Runnable {
 
 	@Override
 	public void run() {
+		int tiempoVividoMs = 0;
+		try {
+			while (tamagotchi.getEstado() != Estado.MUERTO && tiempoVividoMs < TIEMPO_VIDA_MS) {
+				Thread.sleep(INTERVALO_SUCIEDAD_MS);
+				tiempoVividoMs += INTERVALO_SUCIEDAD_MS;
+				tamagotchi.ensuciarse();
+			}
+			tamagotchi.morir();
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 	}
 
 }
