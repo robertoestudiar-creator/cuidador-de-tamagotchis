@@ -137,4 +137,13 @@ public class Tamagotchi extends Thread {
 		}
 		return estado;
 	}
+	
+	public synchronized boolean solicitarAccion(Estado accion) {
+		if(estado!=Estado.OCIOSO) {
+			return false;
+		}
+		estado=accion;
+		notify();
+		return true;
+	}
 }
