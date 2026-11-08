@@ -1,5 +1,6 @@
 package org.cuatrovientos.psp.cuidadordetamagotchis;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -28,13 +29,14 @@ public class App {
 									+  "5. Acabar";
 	private static final String MENSAJE_OPCION_INVALIDA = "Opción no válida";
 	private static final String MENSAJE_OCUPADO = " está ocupado";
+	private static final String MENSAJE_YA_MUERTO = " está muerto";
 	private static final String MENSAJE_ESTADO = " está ";
 	private static final String MENSAJE_ELEGIR_TAMAGOTCHI = "Elige un Tamagotchi del 1 al ";
 	private static final String MENSAJE_TAMAGOTCHI_INVALIDO = "Ese Tamagotchi no existe";
 	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce un número: ";
 	private static final String MENSAJE_ERROR_PREGUNTAR_NUMERO = "Error, debes introducir un número entero";
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		Tamagotchi[] tamagotchis = crearTamagotchis();
 		lanzarTamagotchis(tamagotchis);
 		Scanner scn = new Scanner(System.in);
@@ -94,19 +96,29 @@ public class App {
 	private static void lanzarAccion(Tamagotchi[] tamagotchis, Scanner scn, Estado accion) {
 		Tamagotchi tamagotchi = elegirTamagotchi(tamagotchis, scn);
 		if (!tamagotchi.solicitarAccion(accion)) {
+			avisarNoDisponible(tamagotchi);
+		}
+	}
+
+	private static void avisarNoDisponible(Tamagotchi tamagotchi) {
+		if (tamagotchi.getEstado() == Estado.MUERTO) {
+			System.out.println(tamagotchi.getName() + MENSAJE_YA_MUERTO);
+		} else {
 			System.out.println(tamagotchi.getName() + MENSAJE_OCUPADO);
 		}
 	}
 
-	private static void jugar(Tamagotchi[] tamagotchis, Scanner scn) throws InterruptedException {
+	private static void jugar(Tamagotchi[] tamagotchis, Scanner scn) throws InterruptedException, IOException {
 		Tamagotchi tamagotchi = elegirTamagotchi(tamagotchis, scn);
 		if (!tamagotchi.solicitarAccion(Estado.JUGANDO)) {
-			System.out.println(tamagotchi.getName() + MENSAJE_OCUPADO);
+			avisarNoDisponible(tamagotchi);
 			return;
 		}
 		Thread.sleep(PAUSA_JUEGO_MS);
 		while (tamagotchi.getEstado() == Estado.JUGANDO) {
-			tamagotchi.responder(preguntarNumero(scn));
+			if (System.in.available() > 0) {
+				tamagotchi.responder(leerNumero(scn));
+			}
 			Thread.sleep(PAUSA_JUEGO_MS);
 		}
 	}
@@ -123,8 +135,12 @@ public class App {
 	}
 
 	private static int preguntarNumero(Scanner scn) {
+		System.out.println(MENSAJE_PREGUNTAR_NUMERO);
+		return leerNumero(scn);
+	}
+
+	private static int leerNumero(Scanner scn) {
 		while (true) {
-			System.out.println(MENSAJE_PREGUNTAR_NUMERO);
 			String respuesta = scn.nextLine().trim();
 			try {
 				return Integer.parseInt(respuesta);

@@ -1,7 +1,6 @@
 package org.cuatrovientos.psp.cuidadordetamagotchis;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class Tamagotchi extends Thread {
 
@@ -14,6 +13,7 @@ public class Tamagotchi extends Thread {
 
 	private static final String MENSAJE_MUY_SUCIO = " está empezando a estar muy sucio";
 	private static final String MENSAJE_MUERTE = " ha muerto...";
+	private static final String MENSAJE_FIN_VIDA = " ha llegado al final de su vida";
 	private static final String MENSAJE_EMPIEZA_COMER = " empieza a comer";
 	private static final String MENSAJE_TERMINA_COMER = " ha acabado de comer";
 	private static final String MENSAJE_EMPIEZA_BANARSE = " empieza a bañarse";
@@ -21,7 +21,7 @@ public class Tamagotchi extends Thread {
 	private static final String MENSAJE_EMPIEZA_JUGAR = " quiere jugar";
 	private static final String MENSAJE_TERMINA_JUGAR = " ha terminado de jugar";
 	private static final String MENSAJE_FALLO_SUMA = "Ooops, has fallado";
-	private static final String MENSAJE_ESTADO = " tiene una suciedad de ";
+	private static final String MENSAJE_SUCIEDAD = " tiene una suciedad de ";
 
 	private final int tiempoComerMs;
 	private int suciedad = 0;
@@ -85,7 +85,7 @@ public class Tamagotchi extends Thread {
 		int resultado = primerNumeroSuma + segundoNumeroSuma;
 		boolean acertado = false;
 		while (!acertado) {
-			System.out.println(getName() + ": " + primerNumeroSuma + " + " + segundoNumeroSuma + "= ");
+			System.out.println(getName() + ": " + primerNumeroSuma + " + " + segundoNumeroSuma + " = ");
 			int numeroRecibido = esperarRespuesta();
 			acertado = numeroRecibido == resultado;
 			if (!acertado) {
@@ -119,6 +119,13 @@ public class Tamagotchi extends Thread {
 		}
 	}
 
+	public synchronized void morirDeViejo() {
+		if (estado != Estado.MUERTO) {
+			System.out.println(getName() + MENSAJE_FIN_VIDA);
+			morir();
+		}
+	}
+
 	public synchronized boolean serAsesinado() {
 		if (estado != Estado.OCIOSO) {
 			return false;
@@ -128,7 +135,7 @@ public class Tamagotchi extends Thread {
 	}
 
 	public synchronized void mostrarSuciedad() {
-		System.out.println(getName() + MENSAJE_ESTADO + suciedad);
+		System.out.println(getName() + MENSAJE_SUCIEDAD + suciedad);
 	}
 
 	private synchronized Estado esperarAccion() throws InterruptedException {
