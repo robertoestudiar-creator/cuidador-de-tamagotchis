@@ -20,7 +20,7 @@ public class Tamagotchi extends Thread {
 	private static final String MENSAJE_EMPIEZA_JUGAR = " quiere jugar";
 	private static final String MENSAJE_TERMINA_JUGAR = " ha terminado de jugar";
 	private static final String MENSAJE_FALLO_SUMA = "Ooops, has fallado";
-	private static final String MENSAJE_ESTADO = " tiene una suciedad de ";
+	private static final String MENSAJE_SUCIEDAD = " tiene una suciedad de ";
 
 	private final int tiempoComerMs;
 	private int suciedad = 0;
@@ -127,7 +127,7 @@ public class Tamagotchi extends Thread {
 	}
 
 	public synchronized void mostrarSuciedad() {
-		System.out.println(getName() + MENSAJE_ESTADO + suciedad);
+		System.out.println(getName() + MENSAJE_SUCIEDAD + suciedad);
 	}
 
 	private synchronized Estado esperarAccion() throws InterruptedException {
