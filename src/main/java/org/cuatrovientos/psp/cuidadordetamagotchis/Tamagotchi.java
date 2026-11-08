@@ -19,4 +19,8 @@ public class Tamagotchi extends Thread {
 		this.tiempoComerMs = tiempoComerMs;
 	}
 
+	private synchronized void cambiarEstado(Estado nuevoEstado) {
+		estado = nuevoEstado;
+	}
+
 }
