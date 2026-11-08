@@ -126,5 +126,8 @@ public class Tamagotchi extends Thread {
 		morir();
 		return true;
 	}
-
+	
+	public synchronized void mostrarSuciedad(){
+		System.out.println(getName() + MENSAJE_ESTADO+ suciedad);
+	}
 }
