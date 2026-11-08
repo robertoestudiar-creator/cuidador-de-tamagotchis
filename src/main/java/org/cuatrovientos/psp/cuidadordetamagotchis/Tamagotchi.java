@@ -9,6 +9,8 @@ public class Tamagotchi extends Thread {
 	private static final int SUCIEDAD_MUERTE = 10;
 	private static final String MENSAJE_MUY_SUCIO = " está empezando a estar muy sucio";
 	private static final String MENSAJE_MUERTE = " ha muerto...";
+	private static final String MENSAJE_EMPIEZA_COMER = " empieza a comer";
+	private static final String MENSAJE_TERMINA_COMER = " ha acabado de comer";
 
 	private final int tiempoComerMs;
 	private int suciedad = 0;
@@ -23,4 +25,11 @@ public class Tamagotchi extends Thread {
 		estado = nuevoEstado;
 	}
 
+	private void comer() throws InterruptedException {
+		cambiarEstado(Estado.COMIENDO);
+		System.out.println(getName() + MENSAJE_EMPIEZA_COMER);
+		Thread.sleep(tiempoComerMs);
+		System.out.println(getName() + MENSAJE_TERMINA_COMER);
+		cambiarEstado(Estado.OCIOSO);
+	}
 }
