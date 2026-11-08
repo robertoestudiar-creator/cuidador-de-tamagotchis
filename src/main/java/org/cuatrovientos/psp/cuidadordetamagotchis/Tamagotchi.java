@@ -137,13 +137,31 @@ public class Tamagotchi extends Thread {
 		}
 		return estado;
 	}
-	
+
 	public synchronized boolean solicitarAccion(Estado accion) {
-		if(estado!=Estado.OCIOSO) {
+		if (estado != Estado.OCIOSO) {
 			return false;
 		}
-		estado=accion;
+		estado = accion;
 		notify();
 		return true;
+	}
+
+	@Override
+	public void run() {
+		try {
+			while (getEstado() != Estado.MUERTO) {
+				Estado accion = esperarAccion();
+				if (accion == Estado.COMIENDO) {
+					comer();
+				} else if (accion == Estado.BANANDOSE) {
+					limpiarse();
+				} else if (accion == Estado.JUGANDO) {
+					jugar();
+				}
+			}
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 	}
 }
