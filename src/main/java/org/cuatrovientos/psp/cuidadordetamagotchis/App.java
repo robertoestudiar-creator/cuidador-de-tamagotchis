@@ -10,6 +10,8 @@ public class App {
 	private static final int TIEMPO_COMER_MAX_MS = 5000;
 
 	private static final int PAUSA_JUEGO_MS = 200;
+	private static final int PAUSA_ACABAR_MS = 200;
+	private static final int TIEMPO_ESPERA_ACABAR_MS = 5000;
 
 	private static final int OPCION_COMER = 1;
 	private static final int OPCION_BANAR = 2;
@@ -54,6 +56,7 @@ public class App {
 				mostrarEstado(tamagotchis);
 				break;
 			case OPCION_ACABAR:
+				acabar(tamagotchis);
 				break;
 			default:
 				System.out.println(MENSAJE_OPCION_INVALIDA);
@@ -69,6 +72,16 @@ public class App {
 			tamagotchis[i] = new Tamagotchi(PREFIJO_NOMBRE + (i + 1), tiempoComerMs);
 		}
 		return tamagotchis;
+	}
+
+	private static void acabar(Tamagotchi[] tamagotchis) throws InterruptedException {
+		for (Tamagotchi tamagotchi : tamagotchis) {
+			while (tamagotchi.getEstado() != Estado.MUERTO && !tamagotchi.serAsesinado()) {
+				Thread.sleep(PAUSA_ACABAR_MS);
+			}
+		}
+		Thread.sleep(TIEMPO_ESPERA_ACABAR_MS);
+		System.exit(0);
 	}
 
 	private static void mostrarEstado(Tamagotchi[] tamagotchis) {
