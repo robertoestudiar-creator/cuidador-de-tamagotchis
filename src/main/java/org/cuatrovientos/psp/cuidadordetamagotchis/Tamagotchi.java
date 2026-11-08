@@ -20,7 +20,7 @@ public class Tamagotchi extends Thread {
 	private static final String MENSAJE_TERMINA_COMER = " ha acabado de comer";
 	private static final String MENSAJE_EMPIEZA_BANARSE = " empieza a bañarse";
 	private static final String MENSAJE_TERMINA_BANARSE = " ha acabado de bañarse";
-	private static final String MENSAJE_EMPIEZA_JUGAR = " quiere a jugar";
+	private static final String MENSAJE_EMPIEZA_JUGAR = " quiere jugar";
 	private static final String MENSAJE_TERMINA_JUGAR = " ha terminado de jugar";
 	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce la respuesta: ";
 	private static final String MENSAJE_ERROR_PREGUNTAR_NUMERO = "Error, debes introducir un número entero mayor a cero";
@@ -30,7 +30,7 @@ public class Tamagotchi extends Thread {
 	private int suciedad = 0;
 	private Estado estado = Estado.OCIOSO;
 	private Integer respuesta = null;
-	
+
 	public synchronized Estado getEstado() {
 		return estado;
 	}
@@ -64,12 +64,12 @@ public class Tamagotchi extends Thread {
 		System.out.println(getName() + MENSAJE_TERMINA_BANARSE);
 		cambiarEstado(Estado.OCIOSO);
 	}
-	
+
 	public synchronized void responder(int numero) {
 		respuesta = numero;
 		notify();
 	}
-	
+
 	private synchronized int esperarRespuesta() throws InterruptedException {
 		while (respuesta == null) {
 			wait();
@@ -78,7 +78,7 @@ public class Tamagotchi extends Thread {
 		respuesta = null;
 		return numeroRecibido;
 	}
-	
+
 	private void juegoSumar() throws InterruptedException {
 		Random rnd = new Random();
 		int primerNumeroSuma = rnd.nextInt(NUMERO_MINIMO_SUMA, PRIMER_NUMERO_MAXIMO_SUMA);
@@ -93,9 +93,15 @@ public class Tamagotchi extends Thread {
 				System.out.println(getName() + ": " + MENSAJE_FALLO_SUMA);
 			}
 		}
-		
 	}
 
-	
+	private void jugar() throws InterruptedException {
+		cambiarEstado(Estado.JUGANDO);
+		System.out.println(getName() + MENSAJE_EMPIEZA_JUGAR);
+		juegoSumar();
+		System.out.println(getName() + MENSAJE_TERMINA_JUGAR);
+		cambiarEstado(Estado.OCIOSO);
+
+	}
 
 }
