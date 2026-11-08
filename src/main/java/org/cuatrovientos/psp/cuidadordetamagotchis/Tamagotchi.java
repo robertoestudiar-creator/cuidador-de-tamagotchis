@@ -21,6 +21,7 @@ public class Tamagotchi extends Thread {
 	private static final String MENSAJE_EMPIEZA_JUGAR = " quiere jugar";
 	private static final String MENSAJE_TERMINA_JUGAR = " ha terminado de jugar";
 	private static final String MENSAJE_FALLO_SUMA = "Ooops, has fallado";
+	private static final String MENSAJE_ESTADO = " tiene una suciedad de ";
 
 	private final int tiempoComerMs;
 	private int suciedad = 0;
@@ -62,7 +63,7 @@ public class Tamagotchi extends Thread {
 		System.out.println(getName() + MENSAJE_TERMINA_BANARSE);
 		cambiarEstado(Estado.OCIOSO);
 	}
-	
+
 	public synchronized void responder(int numero) {
 		respuesta = numero;
 		notify();
@@ -109,7 +110,7 @@ public class Tamagotchi extends Thread {
 			morir();
 		}
 	}
-	
+
 	public synchronized void morir() {
 		if (estado != Estado.MUERTO) {
 			estado = Estado.MUERTO;
@@ -117,7 +118,13 @@ public class Tamagotchi extends Thread {
 			interrupt();
 		}
 	}
-	
-	
+
+	public synchronized boolean serAsesinado() {
+		if (estado != Estado.OCIOSO) {
+			return false;
+		}
+		morir();
+		return true;
+	}
 
 }
