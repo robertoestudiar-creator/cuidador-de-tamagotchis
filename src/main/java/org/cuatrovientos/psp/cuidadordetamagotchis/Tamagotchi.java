@@ -7,10 +7,13 @@ public class Tamagotchi extends Thread {
 	private static final int INTERVALO_SUCIEDAD_MS = 20000;
 	private static final int SUCIEDAD_AVISO = 5;
 	private static final int SUCIEDAD_MUERTE = 10;
+	
 	private static final String MENSAJE_MUY_SUCIO = " está empezando a estar muy sucio";
 	private static final String MENSAJE_MUERTE = " ha muerto...";
 	private static final String MENSAJE_EMPIEZA_COMER = " empieza a comer";
 	private static final String MENSAJE_TERMINA_COMER = " ha acabado de comer";
+	private static final String MENSAJE_EMPIEZA_BANARSE = " empieza a comer";
+	private static final String MENSAJE_TERMINA_BANARSE = " ha acabado de comer";
 
 	private final int tiempoComerMs;
 	private int suciedad = 0;
@@ -32,4 +35,20 @@ public class Tamagotchi extends Thread {
 		System.out.println(getName() + MENSAJE_TERMINA_COMER);
 		cambiarEstado(Estado.OCIOSO);
 	}
+	
+	private synchronized void quitarSuciedad() {
+		suciedad = 0;
+	}
+	
+	private void limpiarse() throws InterruptedException {
+		cambiarEstado(Estado.BANANDOSE);
+		System.out.println(getName() + MENSAJE_EMPIEZA_BANARSE);
+		Thread.sleep(TIEMPO_BANO_MS);
+		quitarSuciedad();
+		System.out.println(getName() + MENSAJE_TERMINA_BANARSE);
+		cambiarEstado(Estado.OCIOSO);
+	}
+	
+	
+	
 }
