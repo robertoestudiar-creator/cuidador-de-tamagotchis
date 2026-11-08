@@ -12,8 +12,8 @@ public class Tamagotchi extends Thread {
 	private static final String MENSAJE_MUERTE = " ha muerto...";
 	private static final String MENSAJE_EMPIEZA_COMER = " empieza a comer";
 	private static final String MENSAJE_TERMINA_COMER = " ha acabado de comer";
-	private static final String MENSAJE_EMPIEZA_BANARSE = " empieza a comer";
-	private static final String MENSAJE_TERMINA_BANARSE = " ha acabado de comer";
+	private static final String MENSAJE_EMPIEZA_BANARSE = " empieza a bañarse";
+	private static final String MENSAJE_TERMINA_BANARSE = " ha acabado de bañarse";
 
 	private final int tiempoComerMs;
 	private int suciedad = 0;
