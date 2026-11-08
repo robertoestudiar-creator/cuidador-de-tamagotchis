@@ -1,7 +1,6 @@
 package org.cuatrovientos.psp.cuidadordetamagotchis;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class Tamagotchi extends Thread {
 
