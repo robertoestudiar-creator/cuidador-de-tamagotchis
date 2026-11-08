@@ -9,6 +9,8 @@ public class App {
 	private static final int TIEMPO_COMER_MIN_MS = 1000;
 	private static final int TIEMPO_COMER_MAX_MS = 5000;
 
+	private static final int PAUSA_JUEGO_MS = 200;
+
 	private static final int OPCION_COMER = 1;
 	private static final int OPCION_BANAR = 2;
 	private static final int OPCION_JUGAR = 3;
@@ -29,7 +31,7 @@ public class App {
 	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce un número: ";
 	private static final String MENSAJE_ERROR_PREGUNTAR_NUMERO = "Error, debes introducir un número entero";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		Tamagotchi[] tamagotchis = crearTamagotchis();
 		lanzarTamagotchis(tamagotchis);
 		Scanner scn = new Scanner(System.in);
@@ -45,6 +47,7 @@ public class App {
 				lanzarAccion(tamagotchis, scn, Estado.BANANDOSE);
 				break;
 			case OPCION_JUGAR:
+				jugar(tamagotchis, scn);
 				break;
 			case OPCION_VER_ESTADO:
 				break;
@@ -70,6 +73,19 @@ public class App {
 		Tamagotchi tamagotchi = elegirTamagotchi(tamagotchis, scn);
 		if (!tamagotchi.solicitarAccion(accion)) {
 			System.out.println(tamagotchi.getName() + MENSAJE_OCUPADO);
+		}
+	}
+
+	private static void jugar(Tamagotchi[] tamagotchis, Scanner scn) throws InterruptedException {
+		Tamagotchi tamagotchi = elegirTamagotchi(tamagotchis, scn);
+		if (!tamagotchi.solicitarAccion(Estado.JUGANDO)) {
+			System.out.println(tamagotchi.getName() + MENSAJE_OCUPADO);
+			return;
+		}
+		Thread.sleep(PAUSA_JUEGO_MS);
+		while (tamagotchi.getEstado() == Estado.JUGANDO) {
+			tamagotchi.responder(preguntarNumero(scn));
+			Thread.sleep(PAUSA_JUEGO_MS);
 		}
 	}
 
