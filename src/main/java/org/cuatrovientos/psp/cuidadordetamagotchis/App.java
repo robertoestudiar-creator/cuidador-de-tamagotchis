@@ -26,6 +26,7 @@ public class App {
 									+  "5. Acabar";
 	private static final String MENSAJE_OPCION_INVALIDA = "Opción no válida";
 	private static final String MENSAJE_OCUPADO = " está ocupado";
+	private static final String MENSAJE_ESTADO = " está ";
 	private static final String MENSAJE_ELEGIR_TAMAGOTCHI = "Elige un Tamagotchi del 1 al ";
 	private static final String MENSAJE_TAMAGOTCHI_INVALIDO = "Ese Tamagotchi no existe";
 	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce un número: ";
@@ -50,6 +51,7 @@ public class App {
 				jugar(tamagotchis, scn);
 				break;
 			case OPCION_VER_ESTADO:
+				mostrarEstado(tamagotchis);
 				break;
 			case OPCION_ACABAR:
 				break;
@@ -67,6 +69,13 @@ public class App {
 			tamagotchis[i] = new Tamagotchi(PREFIJO_NOMBRE + (i + 1), tiempoComerMs);
 		}
 		return tamagotchis;
+	}
+
+	private static void mostrarEstado(Tamagotchi[] tamagotchis) {
+		for (Tamagotchi tamagotchi : tamagotchis) {
+			System.out.println(tamagotchi.getName() + MENSAJE_ESTADO + tamagotchi.getEstado());
+			tamagotchi.mostrarSuciedad();
+		}
 	}
 
 	private static void lanzarAccion(Tamagotchi[] tamagotchis, Scanner scn, Estado accion) {
