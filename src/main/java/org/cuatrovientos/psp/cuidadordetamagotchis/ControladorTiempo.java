@@ -20,7 +20,7 @@ public class ControladorTiempo implements Runnable {
 				tiempoVividoMs += INTERVALO_SUCIEDAD_MS;
 				tamagotchi.ensuciarse();
 			}
-			tamagotchi.morir();
+			tamagotchi.morirDeViejo();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}

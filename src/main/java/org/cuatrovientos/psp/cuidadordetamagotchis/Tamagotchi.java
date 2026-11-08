@@ -13,6 +13,7 @@ public class Tamagotchi extends Thread {
 
 	private static final String MENSAJE_MUY_SUCIO = " está empezando a estar muy sucio";
 	private static final String MENSAJE_MUERTE = " ha muerto...";
+	private static final String MENSAJE_FIN_VIDA = " ha llegado al final de su vida";
 	private static final String MENSAJE_EMPIEZA_COMER = " empieza a comer";
 	private static final String MENSAJE_TERMINA_COMER = " ha acabado de comer";
 	private static final String MENSAJE_EMPIEZA_BANARSE = " empieza a bañarse";
@@ -115,6 +116,13 @@ public class Tamagotchi extends Thread {
 			estado = Estado.MUERTO;
 			System.out.println(getName() + MENSAJE_MUERTE);
 			interrupt();
+		}
+	}
+
+	public synchronized void morirDeViejo() {
+		if (estado != Estado.MUERTO) {
+			System.out.println(getName() + MENSAJE_FIN_VIDA);
+			morir();
 		}
 	}
 
