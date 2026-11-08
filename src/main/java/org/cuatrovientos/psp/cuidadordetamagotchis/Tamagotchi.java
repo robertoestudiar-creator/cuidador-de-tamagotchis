@@ -62,7 +62,7 @@ public class Tamagotchi extends Thread {
 		System.out.println(getName() + MENSAJE_TERMINA_BANARSE);
 		cambiarEstado(Estado.OCIOSO);
 	}
-
+	
 	public synchronized void responder(int numero) {
 		respuesta = numero;
 		notify();
@@ -106,7 +106,15 @@ public class Tamagotchi extends Thread {
 		if (suciedad == SUCIEDAD_AVISO) {
 			System.out.println(getName() + MENSAJE_MUY_SUCIO);
 		} else if (suciedad == SUCIEDAD_MUERTE) {
-			//morir();
+			morir();
+		}
+	}
+	
+	public synchronized void morir() {
+		if (estado != Estado.MUERTO) {
+			estado = Estado.MUERTO;
+			System.out.println(getName() + MENSAJE_MUERTE);
+			interrupt();
 		}
 	}
 	
