@@ -1,12 +1,19 @@
 package org.cuatrovientos.psp.cuidadordetamagotchis;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class App {
 
 	private static final int CANTIDAD_TAMAGOTCHIS = 3;
 	private static final int TIEMPO_COMER_MIN_MS = 1000;
 	private static final int TIEMPO_COMER_MAX_MS = 5000;
+
+	private static final int OPCION_COMER = 1;
+	private static final int OPCION_BANAR = 2;
+	private static final int OPCION_JUGAR = 3;
+	private static final int OPCION_VER_ESTADO = 4;
+	private static final int OPCION_ACABAR = 5;
 
 	private static final String PREFIJO_NOMBRE = "Tama-";
 	private static final String MENU = "\n--- CUIDADOR ---\n"
@@ -15,10 +22,33 @@ public class App {
 									+  "3. Jugar\n"
 									+  "4. Ver estado\n"
 									+  "5. Acabar";
-	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce la respuesta: ";
+	private static final String MENSAJE_OPCION_INVALIDA = "Opción no válida";
+	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce un número: ";
 	private static final String MENSAJE_ERROR_PREGUNTAR_NUMERO = "Error, debes introducir un número entero";
 
 	public static void main(String[] args) {
+		Tamagotchi[] tamagotchis = crearTamagotchis();
+		lanzarTamagotchis(tamagotchis);
+		Scanner scn = new Scanner(System.in);
+
+		while (true) {
+			mostrarMenu();
+			int opcion = preguntarNumero(scn);
+			switch (opcion) {
+			case OPCION_COMER:
+				break;
+			case OPCION_BANAR:
+				break;
+			case OPCION_JUGAR:
+				break;
+			case OPCION_VER_ESTADO:
+				break;
+			case OPCION_ACABAR:
+				break;
+			default:
+				System.out.println(MENSAJE_OPCION_INVALIDA);
+			}
+		}
 	}
 
 	private static Tamagotchi[] crearTamagotchis() {
@@ -29,6 +59,18 @@ public class App {
 			tamagotchis[i] = new Tamagotchi(PREFIJO_NOMBRE + (i + 1), tiempoComerMs);
 		}
 		return tamagotchis;
+	}
+
+	private static int preguntarNumero(Scanner scn) {
+		while (true) {
+			System.out.println(MENSAJE_PREGUNTAR_NUMERO);
+			String respuesta = scn.nextLine().trim();
+			try {
+				return Integer.parseInt(respuesta);
+			} catch (NumberFormatException e) {
+				System.out.println(MENSAJE_ERROR_PREGUNTAR_NUMERO);
+			}
+		}
 	}
 
 	private static void mostrarMenu() {
