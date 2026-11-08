@@ -23,6 +23,8 @@ public class App {
 									+  "4. Ver estado\n"
 									+  "5. Acabar";
 	private static final String MENSAJE_OPCION_INVALIDA = "Opción no válida";
+	private static final String MENSAJE_ELEGIR_TAMAGOTCHI = "Elige un Tamagotchi del 1 al ";
+	private static final String MENSAJE_TAMAGOTCHI_INVALIDO = "Ese Tamagotchi no existe";
 	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce un número: ";
 	private static final String MENSAJE_ERROR_PREGUNTAR_NUMERO = "Error, debes introducir un número entero";
 
@@ -59,6 +61,17 @@ public class App {
 			tamagotchis[i] = new Tamagotchi(PREFIJO_NOMBRE + (i + 1), tiempoComerMs);
 		}
 		return tamagotchis;
+	}
+
+	private static Tamagotchi elegirTamagotchi(Tamagotchi[] tamagotchis, Scanner scn) {
+		while (true) {
+			System.out.println(MENSAJE_ELEGIR_TAMAGOTCHI + tamagotchis.length);
+			int numero = preguntarNumero(scn);
+			if (numero >= 1 && numero <= tamagotchis.length) {
+				return tamagotchis[numero - 1];
+			}
+			System.out.println(MENSAJE_TAMAGOTCHI_INVALIDO);
+		}
 	}
 
 	private static int preguntarNumero(Scanner scn) {
