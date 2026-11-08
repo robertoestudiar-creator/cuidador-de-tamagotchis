@@ -1,5 +1,6 @@
 package org.cuatrovientos.psp.cuidadordetamagotchis;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -35,7 +36,7 @@ public class App {
 	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce un número: ";
 	private static final String MENSAJE_ERROR_PREGUNTAR_NUMERO = "Error, debes introducir un número entero";
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		Tamagotchi[] tamagotchis = crearTamagotchis();
 		lanzarTamagotchis(tamagotchis);
 		Scanner scn = new Scanner(System.in);
@@ -107,7 +108,7 @@ public class App {
 		}
 	}
 
-	private static void jugar(Tamagotchi[] tamagotchis, Scanner scn) throws InterruptedException {
+	private static void jugar(Tamagotchi[] tamagotchis, Scanner scn) throws InterruptedException, IOException {
 		Tamagotchi tamagotchi = elegirTamagotchi(tamagotchis, scn);
 		if (!tamagotchi.solicitarAccion(Estado.JUGANDO)) {
 			avisarNoDisponible(tamagotchi);
@@ -115,7 +116,9 @@ public class App {
 		}
 		Thread.sleep(PAUSA_JUEGO_MS);
 		while (tamagotchi.getEstado() == Estado.JUGANDO) {
-			tamagotchi.responder(preguntarNumero(scn));
+			if (System.in.available() > 0) {
+				tamagotchi.responder(leerNumero(scn));
+			}
 			Thread.sleep(PAUSA_JUEGO_MS);
 		}
 	}
@@ -132,8 +135,12 @@ public class App {
 	}
 
 	private static int preguntarNumero(Scanner scn) {
+		System.out.println(MENSAJE_PREGUNTAR_NUMERO);
+		return leerNumero(scn);
+	}
+
+	private static int leerNumero(Scanner scn) {
 		while (true) {
-			System.out.println(MENSAJE_PREGUNTAR_NUMERO);
 			String respuesta = scn.nextLine().trim();
 			try {
 				return Integer.parseInt(respuesta);
