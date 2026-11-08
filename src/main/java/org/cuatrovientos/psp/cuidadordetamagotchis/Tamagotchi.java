@@ -22,8 +22,6 @@ public class Tamagotchi extends Thread {
 	private static final String MENSAJE_TERMINA_BANARSE = " ha acabado de bañarse";
 	private static final String MENSAJE_EMPIEZA_JUGAR = " quiere jugar";
 	private static final String MENSAJE_TERMINA_JUGAR = " ha terminado de jugar";
-	private static final String MENSAJE_PREGUNTAR_NUMERO = "Introduce la respuesta: ";
-	private static final String MENSAJE_ERROR_PREGUNTAR_NUMERO = "Error, debes introducir un número entero mayor a cero";
 	private static final String MENSAJE_FALLO_SUMA = "Ooops, has fallado";
 
 	private final int tiempoComerMs;
@@ -101,7 +99,17 @@ public class Tamagotchi extends Thread {
 		juegoSumar();
 		System.out.println(getName() + MENSAJE_TERMINA_JUGAR);
 		cambiarEstado(Estado.OCIOSO);
-
 	}
+
+	public synchronized void ensuciarse() {
+		suciedad++;
+		if (suciedad == SUCIEDAD_AVISO) {
+			System.out.println(getName() + MENSAJE_MUY_SUCIO);
+		} else if (suciedad == SUCIEDAD_MUERTE) {
+			//morir();
+		}
+	}
+	
+	
 
 }
