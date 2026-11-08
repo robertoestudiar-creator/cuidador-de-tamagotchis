@@ -84,7 +84,7 @@ public class Tamagotchi extends Thread {
 		int resultado = primerNumeroSuma + segundoNumeroSuma;
 		boolean acertado = false;
 		while (!acertado) {
-			System.out.println(getName() + ": " + primerNumeroSuma + " + " + segundoNumeroSuma + "= ");
+			System.out.println(getName() + ": " + primerNumeroSuma + " + " + segundoNumeroSuma + " = ");
 			int numeroRecibido = esperarRespuesta();
 			acertado = numeroRecibido == resultado;
 			if (!acertado) {
