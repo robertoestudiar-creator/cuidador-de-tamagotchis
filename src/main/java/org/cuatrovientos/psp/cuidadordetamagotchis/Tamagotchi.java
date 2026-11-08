@@ -78,6 +78,23 @@ public class Tamagotchi extends Thread {
 		respuesta = null;
 		return numeroRecibido;
 	}
+	
+	private void juegoSumar() throws InterruptedException {
+		Random rnd = new Random();
+		int primerNumeroSuma = rnd.nextInt(NUMERO_MINIMO_SUMA, PRIMER_NUMERO_MAXIMO_SUMA);
+		int segundoNumeroSuma = rnd.nextInt(NUMERO_MINIMO_SUMA, SEGUNDO_NUMERO_MAXIMO_SUMA);
+		int resultado = primerNumeroSuma + segundoNumeroSuma;
+		boolean acertado = false;
+		while (!acertado) {
+			System.out.println(getName() +  primerNumeroSuma + " + " + segundoNumeroSuma + "= ");
+			int numeroRecibido = esperarRespuesta();
+			acertado = numeroRecibido == resultado;
+			if (!acertado) {
+				System.out.println(getName() + ": " + MENSAJE_FALLO_SUMA);
+			}
+		}
+		
+	}
 
 	
 
